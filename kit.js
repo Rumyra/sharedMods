@@ -1,14 +1,21 @@
 // screen maths
 // height, width, halfs, distribution etc...
 
-var Kit = {
-	// width & height based on window
-	init() {
-		this.resize();
-		window.addEventListener("resize", (e) => Kit.resize(e), false);
+class Kit {
+	constructor (canvas) {
+		this._canvas = canvas;
+		this._context = canvas.getContext('2d');
 
-		this.pointerX = window.innerWidth/2;
-		window.addEventListener("mousemove", (e) => Kit.pointerMove(e), false);
+		this.resize();
+		window.addEventListener("resize", () => {
+			this.resize();
+			console.log(this.width);
+		}, false)
+	}
+	// width & height based on window
+	get width() { return this._canvas.width }
+
+	init() {
 
 		return {
 			width: this.width,
@@ -18,16 +25,13 @@ var Kit = {
 			pointerX: this.pointerX,
 			pointerY: this.pointerY
 		}
-	},
-	resize() {
-		this.width = window.innerWidth;
-		this.height = window.innerHeight;
-	},
-	pointerMove(ev) {
-		// console.log(ev.clientX);
-		this.pointerX = ev.clientX;
-		this.pointerY = ev.clientY;
 	}
+
+	resize() {
+		this._canvas.width = window.innerWidth;
+		this._canvas.height = window.innerHeight;
+	}
+
 }
 
 // const kit = screen.init();
